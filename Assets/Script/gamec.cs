@@ -25,6 +25,8 @@ public class gamec : MonoBehaviour
     public GameObject Camera_Gameobject;
     public GameObject g;
     public GameObject GuidPanel;
+    public GameObject Xprefab;
+    public GameObject rprefab;
     bool[] j_one={false,false,false,false,false,false};
     bool[] j_two={false,false,false,false,false,false};
     Vector3 CameraTmp_Position; 
@@ -66,6 +68,25 @@ public class gamec : MonoBehaviour
         // {
         // ShowHelper(false);
         // }
+
+
+        for(int i=0 ; i<4 ; i++){
+            Vector3 x= new Vector3(UnityEngine.Random.Range(0,2000),UnityEngine.Random.Range(0,500),-120);
+            GameObject x1=Instantiate<GameObject>(Xprefab,x,new Quaternion());
+            x1.SetActive(true);
+        }
+
+
+        for(int i=0 ; i<3 ; i++){
+
+            Vector3 y= new Vector3(UnityEngine.Random.Range(i*600+10,(i+1)*600),UnityEngine.Random.Range(220,460),-100);
+            GameObject y1=Instantiate<GameObject>(rprefab,y,new Quaternion());
+            int s=UnityEngine.Random.Range(20,50);
+            Vector3 m=y1.transform.localScale;
+            y1.transform.localScale=new Vector3(m.x*s,m.y*s,1);
+
+        }
+
         }
     public void crash()
     {
