@@ -135,7 +135,7 @@ public class gamec : MonoBehaviour
         
         else if (Input.touchCount == 1)
         {
-            //  DebugText.text+="GetTouch(0)";
+            //  DebugText.text+="0";
 
             bool flag=moveCharProcess();
 
@@ -161,22 +161,37 @@ public class gamec : MonoBehaviour
         }
         
         else if(Input.touchCount>1){
-                // DebugText.text ="at3";//+x+ ","+touch.position.x+"f";
+        // foreach(MOVE jahat in  Enum.GetValues(typeof(MOVE))){
+        //    if(j_one[jahat.GetHashCode()]){
+        //        DebugText.text +=jahat.GetHashCode();
+        //    }}
 
             moveCharProcess();
 
             var touch = Input.GetTouch(0);
             var touch1 = Input.GetTouch(1);
-            // DebugText.text+="GetTouch(1);";
-            if(j_one[5]){
-                if(touch.position.x >x || touch1.position.x >x )
-                    moveTo(Time.deltaTime*SpeedConst,1);
+
+            //on enter and on exit pointer equals input touch. 
+            if(j_one[MOVE.SHR.GetHashCode()]||j_two[MOVE.SHR.GetHashCode()]){
+                if(!(j_one[MOVE.LOW.GetHashCode()]||j_two[MOVE.LOW.GetHashCode()]||
+                j_one[MOVE.HIGH.GetHashCode()]||j_two[MOVE.HIGH.GetHashCode()] )){
+                    if(touch.position.x >x || touch1.position.x >x ){
+                        // DebugText.text+="righta";
+                        moveTo(Time.deltaTime*SpeedConst,1);
+                }
+                    
+            }
             }
 
-            else if(touch.position.x <x || touch1.position.x <x )
+            else if(touch.position.x <x || touch1.position.x <x ){
+                 // DebugText.text+="left";
                 moveTo(Time.deltaTime*SpeedConst,2); //LEFT
-            else
+            }
+               
+            else{                                  
+                // DebugText.text+="rightb";
                 moveTo(Time.deltaTime*SpeedConst,1);
+            }
         }
         else{
              Animl.SetBool("moving",false);
