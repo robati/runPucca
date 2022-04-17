@@ -4,20 +4,12 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-          private Animator Anim;
+    private Animator Anim;
 
     void Start()
     {
-               Anim=this.GetComponentInChildren<Animator>();
+        Anim=this.GetComponentInChildren<Animator>();
  
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
