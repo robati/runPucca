@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class xControl : MonoBehaviour
 {
-    public GameObject player;
+    public GameControl gameControl;
     public float Speed=0.01f;
     // Start is called before the first frame update
     float intSpeed=0;
@@ -12,11 +12,14 @@ public class xControl : MonoBehaviour
 //  public Animation animation;
     private float animSpeed = 0.6f;
     GameControl.MOVE lastJahat= GameControl.MOVE.LEFT; 
+    private GameObject player ;
 
     void Start()
     {
         Anim=this.GetComponentInChildren<Animator>();
         intSpeed=Speed;
+        player = gameControl.GetPlayer();
+    
     }
 
      private void FixedUpdate() {

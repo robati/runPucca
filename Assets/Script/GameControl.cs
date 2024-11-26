@@ -13,7 +13,9 @@ public class GameControl : MonoBehaviour
 
 
     public GameObject Pucca;
-    public GameObject P_Spine;
+    public GameObject Garu;
+    public GameObject PuccaSpine;
+    public GameObject GaruSpine;
     public Text DebugText;
     int SpeedConst=180;
     public GameObject puccaMenu;
@@ -32,6 +34,9 @@ public class GameControl : MonoBehaviour
     // bool CanGo=true;
     float timeShr=0;
     MOVE lastJahat=MOVE.RIGHT; 
+    private int PlayerNumber = 1;//TODO: Online
+    private GameObject PlayerGameObject;
+    private GameObject Player_Spine;
      
     public enum MOVE          
     {
@@ -45,17 +50,20 @@ public class GameControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {         
+        PlayerGameObject = PlayerNumber ==0 ? Pucca:Garu;
+        Player_Spine = PlayerNumber ==0 ? PuccaSpine:GaruSpine;
         cam = Camera.main;
 
-        CameraTmp_Position=Pucca.transform.position;
+        CameraTmp_Position=PlayerGameObject.transform.position;
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Animl=Pucca.GetComponentInChildren<Animator>();
+        Animl=PlayerGameObject.GetComponentInChildren<Animator>();
 
 //Creating random enemies
         for(int i=0 ; i<4 ; i++){
             Vector3 x= new Vector3(UnityEngine.Random.Range(400,2000),UnityEngine.Random.Range(180,500),-120);
             GameObject x1=Instantiate<GameObject>(Xprefab,x,new Quaternion());
+            x1.GetComponent<xControl>().gameControl = this;
             x1.SetActive(true);
         }
 
@@ -73,8 +81,8 @@ public class GameControl : MonoBehaviour
         }
     
     private void FixedUpdate() {
-            Camera_Gameobject.transform.position+=new Vector3(Pucca.transform.position.x - CameraTmp_Position.x,0,0);
-            CameraTmp_Position=Pucca.transform.position;
+            Camera_Gameobject.transform.position+=new Vector3(PlayerGameObject.transform.position.x - CameraTmp_Position.x,0,0);
+            CameraTmp_Position=PlayerGameObject.transform.position;
     }
     void Update()
     { 
@@ -87,7 +95,7 @@ public class GameControl : MonoBehaviour
             sendSHR();
         }
 
-        middle=cam.WorldToScreenPoint(Pucca.transform.position).x;
+        middle=cam.WorldToScreenPoint(PlayerGameObject.transform.position).x;
 
         float x=middle;//Screen.width/2;//P_Spine.transform.position.x;//Screen.width/2 ;
         timeShr+=Time.deltaTime;
@@ -100,7 +108,7 @@ public class GameControl : MonoBehaviour
         var move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);    
         if(move!=Vector3.zero){
             PostMoveProc(move.x>0?MOVE.RIGHT:move.x!=0?MOVE.LEFT:MOVE.LOW);
-            Pucca.transform.position += move * SpeedConst * Time.deltaTime;    
+            PlayerGameObject.transform.position += move * SpeedConst * Time.deltaTime;    
         }   
 
         //Android movement control
@@ -159,6 +167,9 @@ public class GameControl : MonoBehaviour
              Animl.SetBool("moving",false);
         }
     }
+    public GameObject GetPlayer(){//TODO: only transform ?
+        return PlayerGameObject;
+    }
      private bool IsPointerOverUIObject()
      {
          var eventDataCurrentPosition = new PointerEventData(EventSystem.current)
@@ -179,14 +190,14 @@ public class GameControl : MonoBehaviour
             Vector3 newScale = a.transform.localScale;
             newScale.x *= -1;
             a.transform.localScale = newScale;
-            a.transform.position=P_Spine.transform.position+new Vector3(-70,30,0);
+            a.transform.position=Player_Spine.transform.position+new Vector3(-70,30,0);
         }
         else{
-            a.transform.position=P_Spine.transform.position+new Vector3(70,30,0); 
+            a.transform.position=Player_Spine.transform.position+new Vector3(70,30,0); 
         }
         Animator a3= a.GetComponent<Animator>();
         a3.SetTrigger("thru");
-        P_Spine.transform.rotation=new Quaternion(0,0,0,0);        
+        Player_Spine.transform.rotation=new Quaternion(0,0,0,0);        
         Animl.SetTrigger("shrk");
     }
     public bool moveCharProcess(){
@@ -246,7 +257,7 @@ public class GameControl : MonoBehaviour
         }
 
         PostMoveProc(m);
-        Pucca.transform.position  = Pucca.transform.position +s*jahatVec3;
+        PlayerGameObject.transform.position  = PlayerGameObject.transform.position +s*jahatVec3;
 
     }
     public void PostMoveProc(MOVE dir){
@@ -254,17 +265,17 @@ public class GameControl : MonoBehaviour
         turnAround(dir);
         Animl.SetBool("moving",true);
 
-        P_Spine.transform.rotation= new Quaternion(0,0,0,0);
-        Camera_Gameobject.transform.position+=new Vector3(Pucca.transform.position.x - CameraTmp_Position.x,0,0);
-        CameraTmp_Position=Pucca.transform.position;
+        Player_Spine.transform.rotation= new Quaternion(0,0,0,0);
+        Camera_Gameobject.transform.position+=new Vector3(PlayerGameObject.transform.position.x - CameraTmp_Position.x,0,0);
+        CameraTmp_Position=PlayerGameObject.transform.position;
     }
     public void turnAround(MOVE d){
         if(d==MOVE.LEFT||d==MOVE.RIGHT){
             if(lastJahat==d)
                 return;
-            Vector3 newScale = P_Spine.transform.localScale;
+            Vector3 newScale = Player_Spine.transform.localScale;
             newScale.x *= -1;
-            P_Spine.transform.localScale = newScale;
+            Player_Spine.transform.localScale = newScale;
             lastJahat=d;
         }
        
