@@ -25,6 +25,7 @@ public class GameControl : MonoBehaviour
     public GameObject GuidPanel;
     public GameObject Xprefab;
     public GameObject rprefab;
+    public GameObject FinishLine;
     bool[] j_one={false,false,false,false,false,false};//On Enter
     bool[] j_two={false,false,false,false,false,false};//On Exit
     Vector3 CameraTmp_Position; 
@@ -34,10 +35,14 @@ public class GameControl : MonoBehaviour
     // bool CanGo=true;
     float timeShr=0;
     MOVE lastJahat=MOVE.RIGHT; 
-    private int PlayerNumber = 0;//TODO: Online
+    private int PlayerNumber = (int)Player.PUCCA;//TODO: Online
     private GameObject PlayerGameObject;
     private GameObject Player_Spine;
      
+     public enum Player{
+         PUCCA,
+         GARU
+     }
     public enum MOVE          
     {
         RIGHT=1,
@@ -46,6 +51,13 @@ public class GameControl : MonoBehaviour
         LOW,
         SHR
     }
+    public enum GameMode{
+      SINGLE,
+      BOT,
+      MULTI
+
+   }
+   public GameMode gameMode = GameMode.SINGLE;
     private Animator Animl;
     // Start is called before the first frame update
     void Start()
@@ -77,6 +89,16 @@ public class GameControl : MonoBehaviour
             y1.SetActive(true);
 
         }
+
+        }
+        public void StartSingleGame(){
+            gameMode = GameMode.SINGLE;
+            Garu.SetActive(false);
+        }
+        public void StartGameAgainstBot(){
+            gameMode = GameMode.BOT; 
+            Garu.SetActive(true);
+            FinishLine.SetActive(true);
 
         }
     

@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuControl : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class MenuControl : MonoBehaviour
    public GameObject puccaMenu;
    public GameObject PauseMenu;
    public GameObject WinMenu;
+   public GameControl gameControl;
+   public Text WinnerText;
+   
     
    private void Awake()
      {
@@ -25,7 +29,7 @@ public class MenuControl : MonoBehaviour
      {
         SceneManager.LoadScene(0);
         puccaMenu.gameObject.SetActive(false);
-        PauseGame(false);
+        PauseGame(true);
       }
    public void PauseGame(bool pauseGame)
    {
@@ -58,11 +62,23 @@ public class MenuControl : MonoBehaviour
         PauseGame(true);
         PauseMenu.gameObject.SetActive(false);
      }
-     public void PauseAndWinMenu(){
+     public void PauseAndWinMenu(GameControl.Player player){
          StopTime(true);
          WinMenu.SetActive(true);
+         if(gameControl.gameMode!=GameControl.GameMode.SINGLE)
+            WinnerText.text = player.ToString() + " WON!";
      }
 
+   public void OnSingleGameClicked(){
+      gameControl.StartSingleGame();
+      PauseGame(false);
+      puccaMenu.SetActive(false);
+   } 
+   public void OnGameAgainstBotClicked(){
+      gameControl.StartGameAgainstBot();
+      PauseGame(false);
+      puccaMenu.SetActive(false);
+   }
 
     
     //TODO:2-make it time limited to get to garu

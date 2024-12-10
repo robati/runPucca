@@ -9,6 +9,7 @@ public class WinControl : MonoBehaviour
 	public AudioClip m1;
 	public AudioClip m2;
     public MenuControl MenuControl;
+    public GameControl.Player PlayerName;
  
     private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.tag.Equals("garu1")){
@@ -21,7 +22,7 @@ public class WinControl : MonoBehaviour
     private IEnumerator ok(int id){
 
         yield return new WaitForSeconds(1);
-        MenuControl.PauseAndWinMenu();
+        MenuControl.PauseAndWinMenu(PlayerName);
         // Time.timeScale = 0f;
         // wonMenu.SetActive(true);
 
