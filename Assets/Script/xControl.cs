@@ -5,8 +5,7 @@ using UnityEngine;
 public class xControl : MonoBehaviour
 {
     public GameControl gameControl;
-    public float Speed=0.01f;
-    // Start is called before the first frame update
+    public float Speed=1f;
     float intSpeed=0;
     private Animator Anim;
 //  public Animation animation;
@@ -22,8 +21,9 @@ public class xControl : MonoBehaviour
     
     }
 
-     private void FixedUpdate() {
+     private void Update() {
         float s1 = Time.deltaTime*Speed;
+       // float s1 = Speed;
         this.transform.position  = this.transform.position - s1 * (this.transform.position-player.transform.position) ; 
         float x=this.transform.position.x-player.transform.transform.position.x;
         if(x>10||x<-10){
