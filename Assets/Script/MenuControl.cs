@@ -10,6 +10,7 @@ public class MenuControl : MonoBehaviour
    private static bool _created = false;
    public GameObject puccaMenu;
    public GameObject PauseMenu;
+   public GameObject WinMenu;
     
    private void Awake()
      {
@@ -20,31 +21,25 @@ public class MenuControl : MonoBehaviour
         }
      }
 
-     public void RsetGame()
+   public void RsetGame()
      {
         SceneManager.LoadScene(0);
         puccaMenu.gameObject.SetActive(false);
         PauseGame(false);
       }
-    public void PauseGame(bool pauseGame)
-    {
-        if(pauseGame){
-            Time.timeScale = 0f;
-            AudioListener.pause = true;
-            PauseMenu.SetActive(true);
-         }
-         else{
-            Time.timeScale = 1;
-            AudioListener.pause = false;
-            PauseMenu.SetActive(false);
-
-         }
-
-     }
+   public void PauseGame(bool pauseGame)
+   {
+         StopTime(pauseGame);
+         PauseMenu.SetActive(pauseGame);
+   }
+   public void StopTime(bool stop){
+         AudioListener.pause = stop;
+         Time.timeScale = stop? 0f:1f;
+   }
    public void QuitGame(){
-        Application.Quit();
-     }
-     public void MuteGame(bool muteGame){
+      Application.Quit();
+   }
+   public void MuteGame(bool muteGame){
     // DebugText.text+=muteGame;
         if(!muteGame)
              AudioListener.volume = 0f;
@@ -62,6 +57,10 @@ public class MenuControl : MonoBehaviour
         puccaMenu.gameObject.SetActive(true);
         PauseGame(true);
         PauseMenu.gameObject.SetActive(false);
+     }
+     public void PauseAndWinMenu(){
+         StopTime(true);
+         WinMenu.SetActive(true);
      }
 
 

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class WinControl : MonoBehaviour
 {
 
     public AudioSource musicSource;
 	public AudioClip m1;
 	public AudioClip m2;
-    public GameObject wonMenu;
     public MenuControl MenuControl;
  
     private void OnCollisionEnter2D(Collision2D other) {
@@ -22,7 +21,7 @@ public class Character : MonoBehaviour
     private IEnumerator ok(int id){
 
         yield return new WaitForSeconds(1);
-        MenuControl.PauseGame(true);
+        MenuControl.PauseAndWinMenu();
         // Time.timeScale = 0f;
         // wonMenu.SetActive(true);
 
