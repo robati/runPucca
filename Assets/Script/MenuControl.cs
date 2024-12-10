@@ -7,11 +7,11 @@ using UnityEngine;
 public class MenuControl : MonoBehaviour
 {
     // Start is called before the first frame update
-    private static bool _created = false;
-     public GameObject puccaMenu;
-    public GameObject PauseMenu;
+   private static bool _created = false;
+   public GameObject puccaMenu;
+   public GameObject PauseMenu;
     
-    private void Awake()
+   private void Awake()
      {
         if (!_created){
             DontDestroyOnLoad(this.gameObject);
@@ -20,12 +20,14 @@ public class MenuControl : MonoBehaviour
         }
      }
 
-     public void RsetGame(){
+     public void RsetGame()
+     {
         SceneManager.LoadScene(0);
         puccaMenu.gameObject.SetActive(false);
         PauseGame(false);
-     }
-    public void PauseGame(bool pauseGame){
+      }
+    public void PauseGame(bool pauseGame)
+    {
         if(pauseGame){
             Time.timeScale = 0f;
             AudioListener.pause = true;
@@ -39,7 +41,7 @@ public class MenuControl : MonoBehaviour
          }
 
      }
-          public void QuitGame(){
+   public void QuitGame(){
         Application.Quit();
      }
      public void MuteGame(bool muteGame){
@@ -48,14 +50,13 @@ public class MenuControl : MonoBehaviour
              AudioListener.volume = 0f;
         else
              AudioListener.volume = 1f;
-
      }
-          public void ShowHelper(bool showAgain){
+      public void ShowHelper(bool showAgain){
         
          PlayerPrefs.SetInt("savedFirstRun",1) ;
         //  GuidPanel.SetActive(true);
          if(showAgain)
-                  PlayerPrefs.SetInt("savedFirstRun",0) ;
+            PlayerPrefs.SetInt("savedFirstRun",0) ;
      }
      void init(){
         puccaMenu.gameObject.SetActive(true);

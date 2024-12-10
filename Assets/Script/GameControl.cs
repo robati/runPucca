@@ -34,7 +34,7 @@ public class GameControl : MonoBehaviour
     // bool CanGo=true;
     float timeShr=0;
     MOVE lastJahat=MOVE.RIGHT; 
-    private int PlayerNumber = 1;//TODO: Online
+    private int PlayerNumber = 0;//TODO: Online
     private GameObject PlayerGameObject;
     private GameObject Player_Spine;
      
